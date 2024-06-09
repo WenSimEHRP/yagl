@@ -100,7 +100,7 @@ private:
 
     // There is quite a lot of palaver involved in stripping C and CPP style comments.
     bool handle_comment_c(uint8_t c);
-    bool handle_comment_cpp(uint8_t c);
+    bool handle_comment_cpp_bash(uint8_t c);
     bool handle_comment_slash(uint8_t c);
     bool handle_comment_star(uint8_t c);
 
@@ -127,7 +127,7 @@ private:
         // '/' starts a comment: C-style if followed by '*'; C++-style if followed by '/'; or an error.
         // '*' heralds the end of C-style, if followed by '/', or is just a continuation.
         // '\n' marks the end of C++-style
-        Slash, Star, CPP, C
+        Slash, Star, CPP, C, BASH
     };
 
     // Cached name of the script file that we are lexing.

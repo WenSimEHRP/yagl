@@ -107,6 +107,14 @@ bool Lexer::handle_byte(uint8_t c, uint8_t p)
                 }
             }
 
+            // Possibly bash style comment
+            else if (c == '#')
+            {
+                // This is the start of a comment
+                m_state = LexerState::BASH;
+                return true;
+            }
+
             // All the other tokens are single character symbols.
             return handle_symbol(c, p);
 
@@ -125,7 +133,8 @@ bool Lexer::handle_byte(uint8_t c, uint8_t p)
         case LexerState::Float:  return handle_float(c);
 
         case LexerState::C:     return handle_comment_c(c);
-        case LexerState::CPP:   return handle_comment_cpp(c);
+        case LexerState::CPP:   return handle_comment_cpp_bash(c);
+        case LexerState::BASH:  return handle_comment_cpp_bash(c);
         case LexerState::Slash: return handle_comment_slash(c);
         case LexerState::Star:  return handle_comment_star(c);
     }
@@ -142,9 +151,9 @@ bool Lexer::handle_comment_c(uint8_t c)
 }
 
 
-bool Lexer::handle_comment_cpp(uint8_t c)
+bool Lexer::handle_comment_cpp_bash(uint8_t c)
 {
-    // We are in a C++-style comment: '\n' terminates it.
+    // We are in a C++ or bash-style comment: '\n' terminates it.
     if (c == '\n')
     {
         m_state  = LexerState::None;
