@@ -36,10 +36,10 @@ LexerError::LexerError(const char* what_arg, uint32_t line, uint32_t column, con
 
     std::ostringstream os;
     os << "YAGL lexer error: ";
-    os << what_arg << " at line " << line << " column " << column << " in " << options.yagl_file();
+    os << what_arg << " at " << options.yagl_file() << ":" << line << ":" << column;
     //if (options.debug())
     //{
-        os << "\n  [at line " << line << " in source file " << file << "]";
+        os << "\n  [at " << file << ":" << line << "]";
     //}
     m_what = os.str();
 }
@@ -58,10 +58,10 @@ ParserError::ParserError(const char* what_arg, const TokenValue& token, const ch
 
     std::ostringstream os;
     os << "YAGL parser error: ";
-    os << what_arg << " at line " << token.line << " column " << token.column << " in " << options.yagl_file();
+    os << what_arg << " at " << options.yagl_file() << ":" << token.line << ":" << token.column;
     //if (options.debug())
     //{
-        os << "\n  [at line " << line << " in source file " << file << "]";
+        os << "\n  [at " << file << ":" << line << "]";
     //}
     m_what = os.str();
 }
@@ -83,7 +83,7 @@ RuntimeError::RuntimeError(const char* what_arg, const char* file, uint32_t line
     os << what_arg;
     //if (options.debug())
     //{
-        os << "\n  [at line " << line << " in source file " << file << "]";
+        os << "\n  [at " << file << ":" << line << "]";
     //}
     m_what = os.str();
 }
@@ -105,7 +105,7 @@ PropertyError::PropertyError(const char* what_arg, FeatureType feature, uint8_t 
     os << what_arg << ": feature=" << FeatureName(feature) << ", property=" << to_hex(property);
     //if (options.debug())
     //{
-        os << "\n  [at line " << line << " in source file " << file << "]";
+        os << "\n  [at " << file << ":" << line << "]";
     //}
     m_what = os.str();
 }
